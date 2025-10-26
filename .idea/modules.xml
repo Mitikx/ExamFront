@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/APIJAVA.iml" filepath="$PROJECT_DIR$/.idea/APIJAVA.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ExamFront.iml" filepath="$PROJECT_DIR$/.idea/ExamFront.iml" />
     </modules>
   </component>
 </project>
