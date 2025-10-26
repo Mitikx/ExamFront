@@ -9,17 +9,19 @@ function UserDetail() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!id) return;
-    fetch(`https://dummyjson.com/users/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data || null);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError(true);
-        setLoading(false);
-      });
+      const fetchUser = async () => {
+          try {
+              const response = await fetch(`https://dummyjson.com/users/${id}`);
+              if (!response.ok) throw new Error("Utilisateur non trouvé");
+              const data = await response.json();
+              setUser(data);
+          } catch (error) {
+              setError(error.message);
+          } finally {
+              setLoading(false);
+          }
+      };
+      fetchUser();
   }, [id]);
 
   if (loading) return <p>Chargement...</p>;
