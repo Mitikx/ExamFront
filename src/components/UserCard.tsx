@@ -1,7 +1,8 @@
+import * as React from "react";
 import { Link } from "react-router-dom";
 import type { User } from "../model/User";
-import { useContext, useMemo } from "react";
-import { ThemeContext } from "../context/ThemeContext.tsx";
+import { useContext, useMemo, useCallback } from "react";
+import { ThemeContext } from "../context/ThemeContext";
 
 type Props = {
     user: User;
@@ -11,12 +12,14 @@ function UserCard({ user }: Props) {
     const ctx = useContext(ThemeContext);
     const isFav = useMemo(() => ctx.favorites.includes(user.id), [ctx.favorites, user.id]);
 
+    const onToggle = useCallback(() => ctx.toggleFavorite(user.id), [ctx, user.id]);
+
     return (
         <article className="user-card">
             <button
                 aria-label="favoris"
                 className={`favorite-icon ${isFav ? "favorite" : ""}`}
-                onClick={() => ctx.toggleFavorite(user.id)}
+                onClick={onToggle}
             >★
             </button>
 
@@ -36,4 +39,4 @@ function UserCard({ user }: Props) {
     );
 }
 
-export default UserCard;
+export default React.memo(UserCard);

@@ -1,49 +1,42 @@
-import React, { createContext, useEffect, useState } from "react";
-
-type AppContextType = {
-  theme: "light" | "dark";
-  toggleTheme: () => void;
-  favorites: number[];
-  toggleFavorite: (id: number) => void;
-};
-
-export const ThemeContext = createContext<AppContextType>({
-  theme: "light",
-  toggleTheme: () => {},
-  favorites: [],
-  toggleFavorite: () => {},
-});
+import * as React from "react";
+import { ThemeContext } from "./ThemeContext";
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<"light" | "dark">(() => {
+  const [theme, setTheme] = React.useState<"light" | "dark">(() => {
     try {
       const saved = localStorage.getItem("theme");
       return saved === "dark" ? "dark" : "light";
-    } catch {
+    } catch (err) {
+      console.warn("Impossible d'accéder au localStrorage pour ce theme", err);
       return "light";
     }
   });
 
-  const [favorites, setFavorites] = useState<number[]>(() => {
+  const [favorites, setFavorites] = React.useState<number[]>(() => {
     try {
       const raw = localStorage.getItem("favorites");
       return raw ? JSON.parse(raw) : [];
-    } catch {
+    } catch (err) {
+      console.warn("Impossible d'accéder au localStrorage pour ce favorie", err);
       return [];
     }
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       localStorage.setItem("theme", theme);
-    } catch {}
+    } catch (err) {
+      console.warn("Impossible d'accéder au localStrorage pour ce theme", err);
+    }
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       localStorage.setItem("favorites", JSON.stringify(favorites));
-    } catch {}
+    } catch (err) {
+      console.warn("Impossible d'accéder au localStrorage pour ce favorie", err);
+    }
   }, [favorites]);
 
   const toggleTheme = () => setTheme((t) => (t === "light" ? "dark" : "light"));

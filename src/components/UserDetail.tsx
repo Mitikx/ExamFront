@@ -1,22 +1,29 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import type { User } from "../model/User";
+import NotFound from "./NotFound";
 
 function UserDetail() {
   const { id } = useParams<{ id: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | false>(false);
+  const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
       const fetchUser = async () => {
           try {
               const response = await fetch(`https://dummyjson.com/users/${id}`);
+              if (response.status === 404) {
+                  setNotFound(true);
+                  return;
+              }
               if (!response.ok) throw new Error("Utilisateur non trouvé");
               const data = await response.json();
               setUser(data);
-          } catch (err:any) {
-              setError(err?.message || String(err));
+          } catch (err: unknown) {
+              const msg = err instanceof Error ? err.message : String(err);
+              setError(msg);
           } finally {
               setLoading(false);
           }
@@ -25,6 +32,7 @@ function UserDetail() {
   }, [id]);
 
   if (loading) return <div className="container"><div className="loader"></div></div>;
+  if (notFound) return <NotFound />;
   if (error || !user) return <div className="container"><div className="error-box">Erreur lors du chargement du détail de l'utilisateur</div></div>;
 
   const email = user.email;

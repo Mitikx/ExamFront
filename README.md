@@ -1,73 +1,153 @@
-# React + TypeScript + Vite
+# Application de Gestion d'Utilisateurs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Application React + TypeScript permettant de consulter, rechercher et gérer une liste d'utilisateurs via l'API DummyJSON.
 
-Currently, two official plugins are available:
+🚀 Démo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Déployé sur Vercel : https://exam-front-ten.vercel.app/
 
-## React Compiler
+📋 Description du projet
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Cette application a été développée from scratch en suivant une approche progressive par niveaux de complexité croissante, allant d'une simple liste d'utilisateurs à une application complète avec gestion d'état avancée, optimisations React et UX soignée.
 
-## Expanding the ESLint configuration
+✨ Fonctionnalités
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+🎯 Niveau 1 - Base dynamique
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- ✅ Affichage de la liste des utilisateurs depuis l'API
+- ✅ Fiche détaillée d'un utilisateur (âge, société, adresse, etc.)
+- ✅ Navigation via React Router (`/` et `/user/:id`)
+- ✅ Gestion des états de chargement et erreurs réseau
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+🔍 Niveau 2 - Interactivité
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- ✅ Recherche en temps réel (nom, prénom, email) avec support multi-mots
+- ✅ Tri par nom ou par âge
+- ✅ Pagination (10 utilisateurs par page, côté client)
+- ✅ Gestion propre des erreurs (try/catch)
+
+🎨 Niveau 3 - UX évoluée
+
+- ✅ Système de favoris persistant (`localStorage`)
+- ✅ Thème clair/sombre avec persistance
+- ✅ Skeleton loader pendant le chargement
+- ✅ Messages d'erreur stylisés avec bouton "Réessayer"
+- ✅ Optimisations avec `useMemo` (filtre + tri)
+- ✅ Animations CSS (fade-in, hover, transitions)
+
+⚡ Niveau 4 - Approche professionnelle
+
+- ✅ Custom hooks : `useUsers()`, `useFavorites()`
+- ✅ Optimisations React : `React.memo`, `useCallback`
+- ✅ `ErrorBoundary` pour capturer les erreurs globales
+- ✅ Page 404 pour les routes/utilisateurs inexistants
+- ✅ Notifications toast (`react-hot-toast`)
+- ✅ Architecture maintenable et performante
+
+🛠️ Technologies utilisées
+
+- React 18 avec TypeScript
+- Vite (build tool)
+- React Router v6 (navigation)
+- react-hot-toast (notifications)
+- react-icons (icônes Material Design)
+- CSS3 (animations, thème dark/light)
+
+📦 Installation
+
+```bash
+# Cloner le dépôt
+git clone https://github.com/Mitikx/ExamFront.git
+cd ExamFront
+
+# Installer les dépendances
+npm install
+
+# Lancer en développement
+npm run dev
+
+# Build de production
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+📁 Structure du projet
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── App.tsx
+├── main.tsx
+├── components/
+│   ├── UserList.tsx
+│   ├── UserCard.tsx
+│   ├── UserDetail.tsx
+│   ├── ErrorBoundary.tsx
+│   └── NotFound.tsx
+├── context/
+│   ├── ThemeContext.ts
+│   └── AppProvider.tsx
+├── hooks/
+│   └── useUsers.ts
+├── model/
+│   └── User.tsx
+└── style/
+    └── styles.css
+```
+
+🎯 Travail effectué
+
+🔧 Architecture
+
+- Séparation des responsabilités : Hooks customs centralisent la logique métier
+- Services isolent les appels API
+- Contexts gèrent l'état global (thème)
+- Components purs et réutilisables
+
+Optimisations :
+
+- `React.memo` sur `UserCard` et `NavBar` (évite re-renders inutiles)
+- `useMemo` pour pipeline filtre+tri (recalcul uniquement si dépendances changent)
+- `useCallback` pour stabiliser les callbacks passés en props
+- `ErrorBoundary` attrape les erreurs React non gérées
+
+🎨 UX/UI
+
+Thème adaptatif :
+
+- Mode clair/sombre avec détection préférence système
+- Persistance dans `localStorage`
+- Transition douce entre les thèmes
+
+Animations :
+
+- Fade-in sur les cartes utilisateur
+- Effet hover avec élévation (translateY + box-shadow)
+- Animation pulse sur les favoris
+- Skeleton loader fluide pendant chargement
+
+Notifications :
+
+- Toast de succès (ajout/retrait favoris, rechargement)
+- Toast d'erreur (échec réseau)
+
+ID unique pour éviter doublons
+
+🔍 Recherche avancée
+
+- La recherche supporte plusieurs mots : "john doe" trouve les utilisateurs avec "john" ET "doe" dans nom/prénom/email
+- Insensible à la casse
+- Reset automatique à la page 1 après recherche
+
+⭐ Favoris
+
+- Ajout/retrait avec icône étoile
+- Persistance `localStorage`
+- Favoris triés en premier dans la liste
+- Bouton "Effacer tous les favoris" dans la navbar
+- Compteur de favoris
+
+🚦 Gestion d'erreurs
+
+- 3 niveaux :
+  - `ErrorBoundary` (erreurs React non catchées)
+  - `try/catch` dans les hooks (erreurs async)
+  - Messages d'erreur avec bouton retry
