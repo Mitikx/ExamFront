@@ -24,10 +24,15 @@ function UserList() {
     if (error) return <p>Erreur lors du chargement des utilisateurs</p>;
 
     return (
-        <div>
-            {users.map((user) => (
-                <UserCard key={user.id} user={user} />
-            ))}
+        <div className="app-container">
+            <div className="header">
+                <h1>Liste des utilisateurs</h1>
+            </div>
+            <div className="user-grid">
+                {users.map((user) => (
+                    <UserCard key={user.id} user={user} />
+                ))}
+            </div>
         </div>
     );
 }

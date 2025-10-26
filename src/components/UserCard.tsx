@@ -7,21 +7,21 @@ type Props = {
 
 function UserCard({ user }: Props) {
     return (
-        <>
+        <article className="user-card">
             <div>
-                <img src={user.image} alt={user.firstName} />
+                <img src={user.image ?? ""} alt={user.firstName ?? "user"} />
             </div>
             <h2>
-                {user.firstName} {user.lastName}
+                {user.firstName ?? ""} {user.lastName ?? ""}
             </h2>
-            <p> {user.email} </p>
+            <p> {user.email ?? ""} </p>
 
             <div>
-                <Link to={`/user/${user.id}`}>
+                <Link className="link" to={`/user/${user.id}`}>
                     Voir détails
                 </Link>
             </div>
-        </>
+        </article>
     );
 }
 

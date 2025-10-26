@@ -37,25 +37,29 @@ function UserDetail() {
   const companyDept = user.company?.department;
 
   return (
-    <div>
-      <div>
-        <img src={user.image ?? ""} alt={user.firstName ?? "user"} />
-      </div>
-      <h2>{name} {lastName}</h2>
+    <div className="app-container">
+      <div className="user-detail">
+        <div className={"user-header"}>
+          <img src={user.image} alt={user.firstName} />
+          <div>
+            <h2>{name} {lastName}</h2>
+            <p className="muted">{email}</p>
+          </div>
+        </div>
 
-      <div>
-        <p><strong>Email :</strong> {email}</p>
-        <p><strong>Téléphone :</strong> {phone}</p>
-        <p><strong>Age :</strong> {age} ans</p>
-        <p><strong>Ville :</strong> {city}</p>
-        <p><strong>Adresse :</strong> {fullAddress}</p>
-        <p><strong>Société :</strong> {companyName}</p>
-        <p><strong>Poste :</strong> {companyTitle}</p>
-        <p><strong>Département :</strong> {companyDept}</p>
-      </div>
+        <div className="user-meta">
+          <p><strong>Téléphone :</strong> {phone}</p>
+          <p><strong>Age :</strong> {age} ans</p>
+          <p><strong>Ville :</strong> {city}</p>
+          <p><strong>Adresse :</strong> {fullAddress}</p>
+          <p><strong>Société :</strong> {companyName}</p>
+          <p><strong>Poste :</strong> {companyTitle}</p>
+          <p><strong>Département :</strong> {companyDept}</p>
+        </div>
 
-      <div>
-        <Link to={`/`}>Retour à la liste des utilisateurs</Link>
+        <div>
+          <Link className="back-link" to={`/`}>Retour à la liste des utilisateurs</Link>
+        </div>
       </div>
     </div>
   );
