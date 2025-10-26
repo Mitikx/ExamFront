@@ -6,7 +6,7 @@ function UserDetail() {
   const { id } = useParams<{ id: string }>();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | false>(false);
 
   useEffect(() => {
       const fetchUser = async () => {
@@ -15,8 +15,8 @@ function UserDetail() {
               if (!response.ok) throw new Error("Utilisateur non trouvé");
               const data = await response.json();
               setUser(data);
-          } catch (error) {
-              setError(error.message);
+          } catch (err:any) {
+              setError(err?.message || String(err));
           } finally {
               setLoading(false);
           }
@@ -24,8 +24,8 @@ function UserDetail() {
       fetchUser();
   }, [id]);
 
-  if (loading) return <p>Chargement...</p>;
-  if (error || !user) return <p>Erreur lors du chargement du détail de l'utilisateur</p>;
+  if (loading) return <div className="container"><div className="loader"></div></div>;
+  if (error || !user) return <div className="container"><div className="error-box">Erreur lors du chargement du détail de l'utilisateur</div></div>;
 
   const email = user.email;
   const phone = user.phone;
@@ -39,17 +39,13 @@ function UserDetail() {
   const companyDept = user.company?.department;
 
   return (
-    <div className="app-container">
+    <div className="container">
       <div className="user-detail">
-        <div className={"user-header"}>
-          <img src={user.image} alt={user.firstName} />
-          <div>
-            <h2>{name} {lastName}</h2>
-            <p className="muted">{email}</p>
-          </div>
-        </div>
+        <img src={user.image} alt={user.firstName} />
+        <h2>{name} {lastName}</h2>
+        <p className="text-muted">{email}</p>
 
-        <div className="user-meta">
+        <div className="mt-4">
           <p><strong>Téléphone :</strong> {phone}</p>
           <p><strong>Age :</strong> {age} ans</p>
           <p><strong>Ville :</strong> {city}</p>
@@ -60,7 +56,7 @@ function UserDetail() {
         </div>
 
         <div>
-          <Link className="back-link" to={`/`}>Retour à la liste des utilisateurs</Link>
+          <Link className="back-btn" to={`/`}>Retour à la liste des utilisateurs</Link>
         </div>
       </div>
     </div>
